@@ -1,5 +1,10 @@
 let game = {
 
+    lockmode: false,
+    firstCard: null,
+    secondCard: null,
+
+    
     techs: [
         'bootstrap',
         'css',
@@ -12,6 +17,55 @@ let game = {
         'node',
         'react'],
 
+    setCard: function (id) {
+
+        let card = this.cards.filter(card => card.id === id)[0];
+
+        if (card.fliped || this.lockmode) {
+            return false;
+        }
+
+
+        if (!this.firstCard) {
+            this.firstCard = card;
+            this.firstCard.fliped = true
+            return true;
+        } else {
+            this.secondCard = card
+            this.secondCard.fliped = true
+            this.lockmode = true
+            return true
+        }
+
+    },
+
+
+    checkMatch: function () {
+        if (!this.firstCard || !this.secondCard) {
+            return false;
+        }
+        return this.firstCard.icon === this.secondCard.icon
+    },
+
+    clearCards: function () {
+        this.firstCard = null;
+        this.secondCard = null;
+        this.lockmode = false;
+    },
+
+    unflipCards() {
+        this.firstCard.fliped = false;
+        this.secondCard.fliped = false;
+        this.clearCards();
+    },
+
+    checkGameOver: function() {
+        return this.cards.filter(card => !card.fliped).length == 0;
+
+
+
+    },
+
     cards: null,
 
 
@@ -22,9 +76,9 @@ let game = {
         this.techs.forEach((tech) => {
             this.cards.push(this.createPairFrontTech(tech))
         })
-       this.cards = this.cards.flatMap(pair => pair);
-       this.shuffleCards();
-       return this.cards;
+        this.cards = this.cards.flatMap(pair => pair);
+        this.shuffleCards();
+        return this.cards;
     },
 
     createPairFrontTech: function (tech) {
