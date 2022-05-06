@@ -84,8 +84,16 @@ body{
     grid-template: 1fr 1fr 1fr 1fr 1fr/ 1fr 1fr 1fr 1fr;
     gap: 20px;
 }
-@media (max-width: 320px){
+@media (max-width: 500px){
     #gameBoard{
         max-width: 500px;
     }
-}
+    .card{
+        width: 85px;
+        height: 85px;
+    }
+    .icon{
+           width:  55px;
+    }
+
+    }
